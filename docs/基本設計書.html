@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI算出アプリケーション 基本設計書</title>
+    <style>
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+        .document {
+            background-color: #fff;
+            padding: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 3px double #333;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-size: 1.4em;
+            border-left: 5px solid #2c5f8a;
+            padding-left: 12px;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+        h3 {
+            font-size: 1.15em;
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+        h4 {
+            font-size: 1em;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #e8eff5;
+            font-weight: bold;
+        }
+        .doc-info-table th {
+            width: 120px;
+            background-color: #f0f0f0;
+        }
+        pre {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            font-size: 0.95em;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 30px 0;
+        }
+        .diagram {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 12px 0;
+            text-align: center;
+        }
+        .diagram pre {
+            display: inline-block;
+            text-align: left;
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul, ol {
+            padding-left: 24px;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <h1>BMI算出アプリケーション<br>基本設計書</h1>
+
+        <h2>1. 文書情報</h2>
+        <table class="doc-info-table">
+            <tr><th>文書名</th><td>BMI算出アプリケーション 基本設計書</td></tr>
+            <tr><th>作成日</th><td>2026年5月29日</td></tr>
+            <tr><th>バージョン</th><td>1.0</td></tr>
+            <tr><th>関連文書</th><td>BMI算出アプリケーション 要件定義書 v1.0</td></tr>
+        </table>
+
+        <hr>
+
+        <h2>2. システム概要</h2>
+
+        <h3>2.1 システムの目的</h3>
+        <p>体重と身長を入力してBMIを算出・表示するWebアプリケーションを構築する。</p>
+
+        <h3>2.2 システム構成</h3>
+        <p>本アプリケーションはクライアントサイドのみで動作するシングルページアプリケーション（SPA）とする。サーバーサイド処理は不要であり、HTML・CSS・JavaScriptのみで構成する。</p>
+
+        <div class="diagram">
+<pre>
+┌─────────────────────────────────┐
+│        ブラウザ（クライアント）       │
+│                                 │
+│  ┌───────────┐  ┌───────────┐  │
+│  │  HTML     │  │   CSS     │  │
+│  │ (画面構造) │  │ (スタイル) │  │
+│  └───────────┘  └───────────┘  │
+│  ┌───────────────────────────┐  │
+│  │       JavaScript          │  │
+│  │  ・入力バリデーション        │  │
+│  │  ・BMI算出ロジック          │  │
+│  │  ・判定処理                │  │
+│  │  ・結果表示制御             │  │
+│  └───────────────────────────┘  │
+└─────────────────────────────────┘
+</pre>
+        </div>
+
+        <h3>2.3 技術スタック</h3>
+        <table>
+            <thead>
+                <tr><th>項目</th><th>技術</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>マークアップ</td><td>HTML5</td></tr>
+                <tr><td>スタイル</td><td>CSS3</td></tr>
+                <tr><td>ロジック</td><td>JavaScript（ES6+）</td></tr>
+                <tr><td>動作環境</td><td>モダンブラウザ（Chrome, Firefox, Safari, Edge）</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>3. 画面設計</h2>
+
+        <h3>3.1 画面一覧</h3>
+        <table>
+            <thead>
+                <tr><th>画面ID</th><th>画面名</th><th>概要</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>SCR-001</td><td>BMI算出画面</td><td>身長・体重の入力とBMI算出結果の表示を行うメイン画面</td></tr>
+            </tbody>
+        </table>
+
+        <h3>3.2 画面レイアウト（SCR-001: BMI算出画面）</h3>
+        <div class="diagram">
+<pre>
+┌──────────────────────────────────────┐
+│                                      │
+│         BMI算出アプリケーション         │
+│                                      │
+│  ┌──────────────────────────────┐    │
+│  │  身長 (cm)                    │    │
+│  │  ┌────────────────────────┐  │    │
+│  │  │                        │  │    │
+│  │  └────────────────────────┘  │    │
+│  │                              │    │
+│  │  体重 (kg)                    │    │
+│  │  ┌────────────────────────┐  │    │
+│  │  │                        │  │    │
+│  │  └────────────────────────┘  │    │
+│  │                              │    │
+│  │  ┌────────────────────────┐  │    │
+│  │  │       算出する          │  │    │
+│  │  └────────────────────────┘  │    │
+│  └──────────────────────────────┘    │
+│                                      │
+│  ┌──────────────────────────────┐    │
+│  │  エラーメッセージ表示エリア     │    │
+│  └──────────────────────────────┘    │
+│                                      │
+│  ┌──────────────────────────────┐    │
+│  │  あなたのBMI: XX.X            │    │
+│  │  判定: XXXXXXXXX             │    │
+│  └──────────────────────────────┘    │
+│                                      │
+└──────────────────────────────────────┘
+</pre>
+        </div>
+
+        <h3>3.3 画面項目定義（SCR-001）</h3>
+        <table>
+            <thead>
+                <tr><th>No.</th><th>項目名</th><th>種別</th><th>属性</th><th>必須</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>タイトル</td><td>ラベル</td><td>テキスト</td><td>-</td><td>「BMI算出アプリケーション」を表示</td></tr>
+                <tr><td>2</td><td>身長ラベル</td><td>ラベル</td><td>テキスト</td><td>-</td><td>「身長 (cm)」を表示</td></tr>
+                <tr><td>3</td><td>身長入力欄</td><td>テキストボックス</td><td>数値（type="number"）</td><td>○</td><td>身長をcm単位で入力。placeholder: "例: 170"</td></tr>
+                <tr><td>4</td><td>体重ラベル</td><td>ラベル</td><td>テキスト</td><td>-</td><td>「体重 (kg)」を表示</td></tr>
+                <tr><td>5</td><td>体重入力欄</td><td>テキストボックス</td><td>数値（type="number"）</td><td>○</td><td>体重をkg単位で入力。placeholder: "例: 65"</td></tr>
+                <tr><td>6</td><td>算出ボタン</td><td>ボタン</td><td>-</td><td>-</td><td>クリック時にBMI算出処理を実行</td></tr>
+                <tr><td>7</td><td>エラー表示エリア</td><td>テキストエリア</td><td>テキスト</td><td>-</td><td>バリデーションエラー時にメッセージを表示。初期状態は非表示</td></tr>
+                <tr><td>8</td><td>BMI値表示</td><td>ラベル</td><td>テキスト</td><td>-</td><td>算出されたBMI値を表示。初期状態は非表示</td></tr>
+                <tr><td>9</td><td>判定表示</td><td>ラベル</td><td>テキスト</td><td>-</td><td>BMI判定結果を表示。初期状態は非表示</td></tr>
+            </tbody>
+        </table>
+
+        <h3>3.4 画面遷移</h3>
+        <p>本アプリケーションは単一画面のため、画面遷移は発生しない。</p>
+
+        <hr>
+
+        <h2>4. 機能設計</h2>
+
+        <h3>4.1 機能一覧</h3>
+        <table>
+            <thead>
+                <tr><th>機能ID</th><th>機能名</th><th>概要</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>FNC-001</td><td>入力バリデーション</td><td>身長・体重の入力値を検証する</td></tr>
+                <tr><td>FNC-002</td><td>BMI算出</td><td>身長と体重からBMI値を算出する</td></tr>
+                <tr><td>FNC-003</td><td>BMI判定</td><td>BMI値から肥満度判定を行う</td></tr>
+                <tr><td>FNC-004</td><td>結果表示</td><td>BMI値と判定結果を画面に表示する</td></tr>
+            </tbody>
+        </table>
+
+        <h3>4.2 FNC-001: 入力バリデーション</h3>
+        <h4>処理概要</h4>
+        <p>算出ボタン押下時に、入力値の妥当性を検証する。</p>
+
+        <h4>バリデーションルール</h4>
+        <table>
+            <thead>
+                <tr><th>優先順</th><th>検証対象</th><th>検証内容</th><th>エラーメッセージ</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>身長</td><td>未入力チェック</td><td>身長を入力してください</td></tr>
+                <tr><td>2</td><td>体重</td><td>未入力チェック</td><td>体重を入力してください</td></tr>
+                <tr><td>3</td><td>身長</td><td>数値チェック</td><td>身長は数値で入力してください</td></tr>
+                <tr><td>4</td><td>体重</td><td>数値チェック</td><td>体重は数値で入力してください</td></tr>
+                <tr><td>5</td><td>身長</td><td>正の数値チェック（&gt; 0）</td><td>身長は正の数値で入力してください</td></tr>
+                <tr><td>6</td><td>体重</td><td>正の数値チェック（&gt; 0）</td><td>体重は正の数値で入力してください</td></tr>
+            </tbody>
+        </table>
+
+        <h4>処理仕様</h4>
+        <ul>
+            <li>バリデーションは優先順に従い上から順に実行する</li>
+            <li>エラーが検出された場合、該当するエラーメッセージをエラー表示エリアに表示する</li>
+            <li>すべてのバリデーションエラーを同時に表示する</li>
+            <li>エラーがある場合、BMI算出処理は実行しない</li>
+        </ul>
+
+        <h3>4.3 FNC-002: BMI算出</h3>
+        <h4>処理概要</h4>
+        <p>入力された身長と体重からBMI値を算出する。</p>
+
+        <h4>計算式</h4>
+        <pre>BMI = weight / (height / 100)²</pre>
+
+        <table>
+            <thead>
+                <tr><th>変数</th><th>内容</th><th>単位</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>weight</td><td>入力された体重</td><td>kg</td></tr>
+                <tr><td>height</td><td>入力された身長</td><td>cm</td></tr>
+            </tbody>
+        </table>
+
+        <h4>処理仕様</h4>
+        <ul>
+            <li>身長をcmからmに変換する（÷100）</li>
+            <li>BMI値を算出する</li>
+            <li>小数点以下第2位を四捨五入し、第1位まで表示する</li>
+        </ul>
+
+        <h3>4.4 FNC-003: BMI判定</h3>
+        <h4>処理概要</h4>
+        <p>算出されたBMI値をもとに、日本肥満学会基準に基づく判定を行う。</p>
+
+        <h4>判定ロジック</h4>
+<pre>if (BMI &lt; 18.5) → "低体重（やせ）"
+else if (BMI &lt; 25.0) → "普通体重"
+else if (BMI &lt; 30.0) → "肥満（1度）"
+else if (BMI &lt; 35.0) → "肥満（2度）"
+else if (BMI &lt; 40.0) → "肥満（3度）"
+else → "肥満（4度）"</pre>
+
+        <h3>4.5 FNC-004: 結果表示</h3>
+        <h4>処理概要</h4>
+        <p>BMI算出・判定の結果を画面に表示する。</p>
+
+        <h4>処理仕様</h4>
+        <ul>
+            <li>エラー表示エリアを非表示にする</li>
+            <li>結果表示エリアを表示状態にする</li>
+            <li>BMI値を「あなたのBMI: XX.X」形式で表示する</li>
+            <li>判定結果を「判定: XXXXXXXXX」形式で表示する</li>
+        </ul>
+
+        <hr>
+
+        <h2>5. 処理フロー</h2>
+
+        <h3>5.1 BMI算出処理フロー</h3>
+        <div class="diagram">
+<pre>
+[開始: 算出ボタン押下]
+       │
+       ▼
+┌─────────────────┐
+│ エラー表示クリア   │
+│ 結果表示クリア     │
+└───────┬─────────┘
+        │
+        ▼
+┌─────────────────┐    NG    ┌─────────────────┐
+│ 入力バリデーション │────────→│ エラーメッセージ   │
+│  (FNC-001)      │         │ 表示             │
+└───────┬─────────┘         └───────┬─────────┘
+        │ OK                        │
+        ▼                           ▼
+┌─────────────────┐          [終了]
+│ BMI算出          │
+│  (FNC-002)      │
+└───────┬─────────┘
+        │
+        ▼
+┌─────────────────┐
+│ BMI判定          │
+│  (FNC-003)      │
+└───────┬─────────┘
+        │
+        ▼
+┌─────────────────┐
+│ 結果表示          │
+│  (FNC-004)      │
+└───────┬─────────┘
+        │
+        ▼
+     [終了]
+</pre>
+        </div>
+
+        <hr>
+
+        <h2>6. データ設計</h2>
+
+        <h3>6.1 入力データ</h3>
+        <table>
+            <thead>
+                <tr><th>データ名</th><th>型</th><th>範囲</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>height</td><td>number</td><td>0より大きい正の数値</td><td>身長（cm）</td></tr>
+                <tr><td>weight</td><td>number</td><td>0より大きい正の数値</td><td>体重（kg）</td></tr>
+            </tbody>
+        </table>
+
+        <h3>6.2 出力データ</h3>
+        <table>
+            <thead>
+                <tr><th>データ名</th><th>型</th><th>範囲</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>bmi</td><td>number</td><td>小数点以下第1位</td><td>算出されたBMI値</td></tr>
+                <tr><td>category</td><td>string</td><td>判定基準に基づく文字列</td><td>BMI判定結果</td></tr>
+            </tbody>
+        </table>
+
+        <h3>6.3 定数定義</h3>
+        <table>
+            <thead>
+                <tr><th>定数名</th><th>値</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>BMI_UNDERWEIGHT</td><td>18.5</td><td>低体重の上限値</td></tr>
+                <tr><td>BMI_NORMAL</td><td>25.0</td><td>普通体重の上限値</td></tr>
+                <tr><td>BMI_OBESE_1</td><td>30.0</td><td>肥満（1度）の上限値</td></tr>
+                <tr><td>BMI_OBESE_2</td><td>35.0</td><td>肥満（2度）の上限値</td></tr>
+                <tr><td>BMI_OBESE_3</td><td>40.0</td><td>肥満（3度）の上限値</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>7. エラー処理設計</h2>
+
+        <h3>7.1 エラー処理方針</h3>
+        <table>
+            <thead>
+                <tr><th>エラー種別</th><th>処理方法</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>入力バリデーションエラー</td><td>エラー表示エリアにメッセージを表示し、BMI算出処理を中止する</td></tr>
+                <tr><td>予期しないエラー</td><td>コンソールにエラーを出力し、ユーザーに汎用エラーメッセージを表示する</td></tr>
+            </tbody>
+        </table>
+
+        <h3>7.2 エラーメッセージ一覧</h3>
+        <table>
+            <thead>
+                <tr><th>エラーID</th><th>メッセージ</th><th>発生条件</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ERR-001</td><td>身長を入力してください</td><td>身長が未入力</td></tr>
+                <tr><td>ERR-002</td><td>体重を入力してください</td><td>体重が未入力</td></tr>
+                <tr><td>ERR-003</td><td>身長は数値で入力してください</td><td>身長が数値でない</td></tr>
+                <tr><td>ERR-004</td><td>体重は数値で入力してください</td><td>体重が数値でない</td></tr>
+                <tr><td>ERR-005</td><td>身長は正の数値で入力してください</td><td>身長が0以下</td></tr>
+                <tr><td>ERR-006</td><td>体重は正の数値で入力してください</td><td>体重が0以下</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>8. ファイル構成</h2>
+<pre>
+bmi/
+├── index.html      # メイン画面（HTML構造）
+├── css/
+│   └── style.css   # スタイルシート
+├── js/
+│   └── app.js      # アプリケーションロジック
+└── docs/
+    ├── requirement.md
+    ├── 要件定義書.md
+    ├── 要件定義書.html
+    ├── 基本設計書.md
+    └── 基本設計書.html
+</pre>
+    </div>
+</body>
+</html>
