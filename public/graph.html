@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI算出アプリケーション - グラフ表示</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span id="username-display"></span>
+        </div>
+        <div class="header-right">
+            <a href="/bmi" class="btn btn-link">BMI算出へ戻る</a>
+            <button id="logout-btn" class="btn btn-secondary">ログアウト</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>過去6か月間の推移</h1>
+
+        <div class="card">
+            <div class="graph-container">
+                <canvas id="bmi-chart"></canvas>
+            </div>
+            <p id="no-data" style="display: none; text-align: center; color: #888;">データがありません</p>
+        </div>
+    </div>
+
+    <script src="/js/graph.js"></script>
+</body>
+</html>
