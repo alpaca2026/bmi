@@ -81,8 +81,11 @@
             border-top: 1px solid #ddd;
             margin: 30px 0;
         }
-        ol.screen-elements {
-            padding-left: 20px;
+        ul, ol {
+            padding-left: 24px;
+        }
+        li {
+            margin-bottom: 4px;
         }
         ol.screen-elements li {
             margin-bottom: 6px;
@@ -100,7 +103,7 @@
         <table class="doc-info-table">
             <tr><th>文書名</th><td>BMI算出アプリケーション 要件定義書</td></tr>
             <tr><th>作成日</th><td>2026年5月29日</td></tr>
-            <tr><th>バージョン</th><td>1.0</td></tr>
+            <tr><th>バージョン</th><td>2.0</td></tr>
         </table>
 
         <hr>
@@ -108,39 +111,67 @@
         <h2>2. プロジェクト概要</h2>
 
         <h3>2.1 目的</h3>
-        <p>体重と身長を入力し、BMI（Body Mass Index）を算出・表示するアプリケーションを開発する。</p>
+        <p>体重と身長を入力し、BMI（Body Mass Index）を算出・表示するアプリケーションを開発する。ユーザーごとに日々の記録を保存し、過去の推移をグラフで確認できる機能を提供する。</p>
 
         <h3>2.2 背景</h3>
-        <p>BMIは肥満度を表す指標として国際的に広く用いられており、健康管理の基本的な指標である。本アプリケーションは、ユーザーが簡単にBMIを確認できる手段を提供する。</p>
+        <p>BMIは肥満度を表す指標として国際的に広く用いられており、健康管理の基本的な指標である。本アプリケーションは、ユーザーが簡単にBMIを確認できる手段を提供するとともに、継続的な健康管理を支援する。</p>
 
         <h3>2.3 スコープ</h3>
         <ul>
+            <li>ログイン機能の提供</li>
             <li>BMI算出機能の提供</li>
             <li>入力値に対するバリデーション</li>
             <li>BMI判定結果の表示</li>
+            <li>日々の体重・身長・BMIの履歴保存機能</li>
+            <li>過去6か月間の推移グラフ表示機能</li>
         </ul>
 
         <hr>
 
         <h2>3. 機能要件</h2>
 
-        <h3>3.1 BMI算出機能</h3>
+        <h3>3.1 ログイン機能</h3>
 
         <h4>3.1.1 概要</h4>
-        <p>ユーザーが体重と身長を入力すると、BMI値を算出して表示する。</p>
+        <p>ユーザー名とパスワードを入力してシステムにログインする。</p>
 
         <h4>3.1.2 入力項目</h4>
+        <table>
+            <thead>
+                <tr><th>項目</th><th>データ型</th><th>必須</th><th>備考</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ユーザー名</td><td>文字列</td><td>○</td><td>半角英数字</td></tr>
+                <tr><td>パスワード</td><td>文字列</td><td>○</td><td>8文字以上</td></tr>
+            </tbody>
+        </table>
+
+        <h4>3.1.3 機能仕様</h4>
+        <ul>
+            <li>ユーザー名とパスワードが一致する場合、ログインを許可する</li>
+            <li>認証失敗時はエラーメッセージを表示する</li>
+            <li>ログイン成功後、BMI算出画面に遷移する</li>
+            <li>ログアウト機能を提供する</li>
+        </ul>
+
+        <h3>3.2 BMI算出機能</h3>
+
+        <h4>3.2.1 概要</h4>
+        <p>ユーザーが日付・体重・身長を入力すると、BMI値を算出して表示する。</p>
+
+        <h4>3.2.2 入力項目</h4>
         <table>
             <thead>
                 <tr><th>項目</th><th>データ型</th><th>単位</th><th>必須</th><th>備考</th></tr>
             </thead>
             <tbody>
+                <tr><td>日付</td><td>日付</td><td>-</td><td>○</td><td>デフォルトは当日。過去日付の入力も可能</td></tr>
                 <tr><td>身長</td><td>数値</td><td>cm</td><td>○</td><td>正の数値であること</td></tr>
                 <tr><td>体重</td><td>数値</td><td>kg</td><td>○</td><td>正の数値であること</td></tr>
             </tbody>
         </table>
 
-        <h4>3.1.3 出力項目</h4>
+        <h4>3.2.3 出力項目</h4>
         <table>
             <thead>
                 <tr><th>項目</th><th>データ型</th><th>備考</th></tr>
@@ -151,13 +182,13 @@
             </tbody>
         </table>
 
-        <h4>3.1.4 BMI計算式</h4>
+        <h4>3.2.4 BMI計算式</h4>
         <div class="formula">
             BMI = 体重(kg) ÷ (身長(m))²
         </div>
         <p class="note">※ 身長はcmで入力されるため、計算時にmへ変換する（÷100）。</p>
 
-        <h4>3.1.5 BMI判定基準（日本肥満学会基準）</h4>
+        <h4>3.2.5 BMI判定基準（日本肥満学会基準）</h4>
         <table>
             <thead>
                 <tr><th>BMI値</th><th>判定</th></tr>
@@ -172,12 +203,69 @@
             </tbody>
         </table>
 
-        <h3>3.2 入力バリデーション</h3>
+        <h3>3.3 履歴保存機能</h3>
+
+        <h4>3.3.1 概要</h4>
+        <p>BMI算出時に、日付・体重・身長・BMI値をユーザーごとに保存する。</p>
+
+        <h4>3.3.2 保存項目</h4>
+        <table>
+            <thead>
+                <tr><th>項目</th><th>データ型</th><th>備考</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ユーザーID</td><td>文字列</td><td>ログインユーザーを識別</td></tr>
+                <tr><td>日付</td><td>日付</td><td>記録対象の日付</td></tr>
+                <tr><td>身長</td><td>数値（cm）</td><td>入力された身長</td></tr>
+                <tr><td>体重</td><td>数値（kg）</td><td>入力された体重</td></tr>
+                <tr><td>BMI値</td><td>数値</td><td>算出されたBMI値</td></tr>
+            </tbody>
+        </table>
+
+        <h4>3.3.3 機能仕様</h4>
+        <ul>
+            <li>同一日付のデータが既に存在する場合は上書き更新する</li>
+            <li>履歴は日付の降順で一覧表示する</li>
+            <li>履歴の削除機能を提供する</li>
+        </ul>
+
+        <h3>3.4 グラフ表示機能</h3>
+
+        <h4>3.4.1 概要</h4>
+        <p>過去6か月間の体重・BMI値の推移を折れ線グラフで表示する。</p>
+
+        <h4>3.4.2 グラフ仕様</h4>
+        <table>
+            <thead>
+                <tr><th>項目</th><th>内容</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>表示期間</td><td>過去6か月間</td></tr>
+                <tr><td>X軸</td><td>日付</td></tr>
+                <tr><td>Y軸（左）</td><td>体重（kg）</td></tr>
+                <tr><td>Y軸（右）</td><td>BMI値</td></tr>
+                <tr><td>グラフ種類</td><td>折れ線グラフ</td></tr>
+            </tbody>
+        </table>
+
+        <h4>3.4.3 機能仕様</h4>
+        <ul>
+            <li>過去6か月間のデータをもとにグラフを描画する</li>
+            <li>データがない日付は表示しない（プロットしない）</li>
+            <li>体重とBMI値を同一グラフ上に表示する（2軸）</li>
+        </ul>
+
+        <h3>3.5 入力バリデーション</h3>
         <table>
             <thead>
                 <tr><th>条件</th><th>エラーメッセージ</th></tr>
             </thead>
             <tbody>
+                <tr><td>ユーザー名が未入力</td><td>ユーザー名を入力してください</td></tr>
+                <tr><td>パスワードが未入力</td><td>パスワードを入力してください</td></tr>
+                <tr><td>認証失敗</td><td>ユーザー名またはパスワードが正しくありません</td></tr>
+                <tr><td>日付が未入力</td><td>日付を入力してください</td></tr>
+                <tr><td>日付が不正</td><td>正しい日付を入力してください</td></tr>
                 <tr><td>身長が未入力</td><td>身長を入力してください</td></tr>
                 <tr><td>体重が未入力</td><td>体重を入力してください</td></tr>
                 <tr><td>身長が数値でない</td><td>身長は数値で入力してください</td></tr>
@@ -196,17 +284,47 @@
 
         <h2>5. 画面構成</h2>
 
-        <h3>5.1 メイン画面</h3>
-        <p>本アプリケーションは単一画面で構成される。</p>
+        <h3>5.1 画面一覧</h3>
+        <table>
+            <thead>
+                <tr><th>画面名</th><th>概要</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ログイン画面</td><td>ユーザー名・パスワードを入力してログインする</td></tr>
+                <tr><td>BMI算出画面</td><td>日付・身長・体重を入力しBMIを算出する。履歴一覧を表示する</td></tr>
+                <tr><td>グラフ画面</td><td>過去6か月間の体重・BMI推移をグラフ表示する</td></tr>
+            </tbody>
+        </table>
 
+        <h3>5.2 ログイン画面</h3>
         <h4>画面要素</h4>
         <ol class="screen-elements">
             <li><strong>タイトル</strong>: アプリケーション名の表示</li>
+            <li><strong>ユーザー名入力欄</strong>: ユーザー名を入力するフィールド</li>
+            <li><strong>パスワード入力欄</strong>: パスワードを入力するフィールド</li>
+            <li><strong>ログインボタン</strong>: ログイン処理を実行するボタン</li>
+            <li><strong>エラー表示エリア</strong>: 認証エラーを表示するエリア</li>
+        </ol>
+
+        <h3>5.3 BMI算出画面</h3>
+        <h4>画面要素</h4>
+        <ol class="screen-elements">
+            <li><strong>ヘッダー</strong>: ログインユーザー名、ログアウトボタン、グラフ画面へのリンク</li>
+            <li><strong>日付入力欄</strong>: 記録対象の日付を入力するフィールド（デフォルト: 当日）</li>
             <li><strong>身長入力欄</strong>: 身長を入力するフィールド（単位: cm）</li>
             <li><strong>体重入力欄</strong>: 体重を入力するフィールド（単位: kg）</li>
-            <li><strong>算出ボタン</strong>: BMIを算出するためのボタン</li>
+            <li><strong>算出ボタン</strong>: BMIを算出し履歴に保存するボタン</li>
             <li><strong>結果表示エリア</strong>: BMI値と判定結果を表示するエリア</li>
             <li><strong>エラー表示エリア</strong>: バリデーションエラーを表示するエリア</li>
+            <li><strong>履歴一覧</strong>: 過去の記録を日付降順で一覧表示するテーブル</li>
+        </ol>
+
+        <h3>5.4 グラフ画面</h3>
+        <h4>画面要素</h4>
+        <ol class="screen-elements">
+            <li><strong>ヘッダー</strong>: ログインユーザー名、ログアウトボタン、BMI算出画面へのリンク</li>
+            <li><strong>グラフ表示エリア</strong>: 過去6か月間の推移グラフを表示するエリア</li>
+            <li><strong>凡例</strong>: 体重・BMI値の凡例表示</li>
         </ol>
 
         <hr>
@@ -219,6 +337,7 @@
             <tbody>
                 <tr><td>BMI</td><td>Body Mass Index（ボディマス指数）。体重と身長から算出される肥満度の指標。</td></tr>
                 <tr><td>日本肥満学会基準</td><td>日本肥満学会が定めるBMIに基づく肥満度の判定基準。</td></tr>
+                <tr><td>履歴</td><td>ユーザーが日々記録した身長・体重・BMI値のデータ。</td></tr>
             </tbody>
         </table>
     </div>
