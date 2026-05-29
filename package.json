@@ -1,0 +1,16 @@
+{
+  "name": "bmi-app",
+  "version": "1.0.0",
+  "description": "BMI算出アプリケーション",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "node server/app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0"
+  }
+}
