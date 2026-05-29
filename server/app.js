@@ -37,6 +37,10 @@ app.get('/graph', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'graph.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`BMI算出アプリケーション起動: http://localhost:${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`BMI算出アプリケーション起動: http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
