@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI算出アプリケーション 要件定義書</title>
+    <style>
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+        .document {
+            background-color: #fff;
+            padding: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 3px double #333;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-size: 1.4em;
+            border-left: 5px solid #2c5f8a;
+            padding-left: 12px;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+        h3 {
+            font-size: 1.15em;
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+        h4 {
+            font-size: 1em;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #e8eff5;
+            font-weight: bold;
+        }
+        .doc-info-table th {
+            width: 120px;
+            background-color: #f0f0f0;
+        }
+        .formula {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 16px 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.05em;
+            text-align: center;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 4px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 30px 0;
+        }
+        ol.screen-elements {
+            padding-left: 20px;
+        }
+        ol.screen-elements li {
+            margin-bottom: 6px;
+        }
+        ol.screen-elements li strong {
+            color: #2c5f8a;
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <h1>BMI算出アプリケーション<br>要件定義書</h1>
+
+        <h2>1. 文書情報</h2>
+        <table class="doc-info-table">
+            <tr><th>文書名</th><td>BMI算出アプリケーション 要件定義書</td></tr>
+            <tr><th>作成日</th><td>2026年5月29日</td></tr>
+            <tr><th>バージョン</th><td>1.0</td></tr>
+        </table>
+
+        <hr>
+
+        <h2>2. プロジェクト概要</h2>
+
+        <h3>2.1 目的</h3>
+        <p>体重と身長を入力し、BMI（Body Mass Index）を算出・表示するアプリケーションを開発する。</p>
+
+        <h3>2.2 背景</h3>
+        <p>BMIは肥満度を表す指標として国際的に広く用いられており、健康管理の基本的な指標である。本アプリケーションは、ユーザーが簡単にBMIを確認できる手段を提供する。</p>
+
+        <h3>2.3 スコープ</h3>
+        <ul>
+            <li>BMI算出機能の提供</li>
+            <li>入力値に対するバリデーション</li>
+            <li>BMI判定結果の表示</li>
+        </ul>
+
+        <hr>
+
+        <h2>3. 機能要件</h2>
+
+        <h3>3.1 BMI算出機能</h3>
+
+        <h4>3.1.1 概要</h4>
+        <p>ユーザーが体重と身長を入力すると、BMI値を算出して表示する。</p>
+
+        <h4>3.1.2 入力項目</h4>
+        <table>
+            <thead>
+                <tr><th>項目</th><th>データ型</th><th>単位</th><th>必須</th><th>備考</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>身長</td><td>数値</td><td>cm</td><td>○</td><td>正の数値であること</td></tr>
+                <tr><td>体重</td><td>数値</td><td>kg</td><td>○</td><td>正の数値であること</td></tr>
+            </tbody>
+        </table>
+
+        <h4>3.1.3 出力項目</h4>
+        <table>
+            <thead>
+                <tr><th>項目</th><th>データ型</th><th>備考</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>BMI値</td><td>数値</td><td>小数点以下第1位まで表示</td></tr>
+                <tr><td>判定</td><td>文字列</td><td>BMI値に基づく肥満度判定</td></tr>
+            </tbody>
+        </table>
+
+        <h4>3.1.4 BMI計算式</h4>
+        <div class="formula">
+            BMI = 体重(kg) ÷ (身長(m))²
+        </div>
+        <p class="note">※ 身長はcmで入力されるため、計算時にmへ変換する（÷100）。</p>
+
+        <h4>3.1.5 BMI判定基準（日本肥満学会基準）</h4>
+        <table>
+            <thead>
+                <tr><th>BMI値</th><th>判定</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>18.5未満</td><td>低体重（やせ）</td></tr>
+                <tr><td>18.5以上 25.0未満</td><td>普通体重</td></tr>
+                <tr><td>25.0以上 30.0未満</td><td>肥満（1度）</td></tr>
+                <tr><td>30.0以上 35.0未満</td><td>肥満（2度）</td></tr>
+                <tr><td>35.0以上 40.0未満</td><td>肥満（3度）</td></tr>
+                <tr><td>40.0以上</td><td>肥満（4度）</td></tr>
+            </tbody>
+        </table>
+
+        <h3>3.2 入力バリデーション</h3>
+        <table>
+            <thead>
+                <tr><th>条件</th><th>エラーメッセージ</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>身長が未入力</td><td>身長を入力してください</td></tr>
+                <tr><td>体重が未入力</td><td>体重を入力してください</td></tr>
+                <tr><td>身長が数値でない</td><td>身長は数値で入力してください</td></tr>
+                <tr><td>体重が数値でない</td><td>体重は数値で入力してください</td></tr>
+                <tr><td>身長が0以下</td><td>身長は正の数値で入力してください</td></tr>
+                <tr><td>体重が0以下</td><td>体重は正の数値で入力してください</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>4. 非機能要件</h2>
+        <p>requirement.md に記載の通り、非機能要件は特になし。</p>
+
+        <hr>
+
+        <h2>5. 画面構成</h2>
+
+        <h3>5.1 メイン画面</h3>
+        <p>本アプリケーションは単一画面で構成される。</p>
+
+        <h4>画面要素</h4>
+        <ol class="screen-elements">
+            <li><strong>タイトル</strong>: アプリケーション名の表示</li>
+            <li><strong>身長入力欄</strong>: 身長を入力するフィールド（単位: cm）</li>
+            <li><strong>体重入力欄</strong>: 体重を入力するフィールド（単位: kg）</li>
+            <li><strong>算出ボタン</strong>: BMIを算出するためのボタン</li>
+            <li><strong>結果表示エリア</strong>: BMI値と判定結果を表示するエリア</li>
+            <li><strong>エラー表示エリア</strong>: バリデーションエラーを表示するエリア</li>
+        </ol>
+
+        <hr>
+
+        <h2>6. 用語定義</h2>
+        <table>
+            <thead>
+                <tr><th>用語</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>BMI</td><td>Body Mass Index（ボディマス指数）。体重と身長から算出される肥満度の指標。</td></tr>
+                <tr><td>日本肥満学会基準</td><td>日本肥満学会が定めるBMIに基づく肥満度の判定基準。</td></tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
