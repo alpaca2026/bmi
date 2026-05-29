@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI算出アプリケーション - ログイン</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>BMI算出アプリケーション</h1>
+
+        <div class="card">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="login">ログイン</button>
+                <button class="tab-btn" data-tab="register">新規登録</button>
+            </div>
+
+            <form id="login-form" class="tab-content active">
+                <div class="form-group">
+                    <label for="login-username">ユーザー名</label>
+                    <input type="text" id="login-username" placeholder="半角英数字">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">パスワード</label>
+                    <input type="password" id="login-password" placeholder="8文字以上">
+                </div>
+                <button type="submit" class="btn btn-primary">ログイン</button>
+            </form>
+
+            <form id="register-form" class="tab-content">
+                <div class="form-group">
+                    <label for="register-username">ユーザー名</label>
+                    <input type="text" id="register-username" placeholder="半角英数字">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">パスワード</label>
+                    <input type="password" id="register-password" placeholder="8文字以上">
+                </div>
+                <button type="submit" class="btn btn-primary">新規登録</button>
+            </form>
+
+            <div id="error-area" class="error-area" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>
